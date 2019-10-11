@@ -1,0 +1,77 @@
+// method 1: DP:
+
+class Solution {
+    public boolean canCross(int[] stones) {
+        if(stones == null || stones.length <= 1) return false;
+        if(stones[1] - stones[0] != 1) return false;
+        
+        int len = stones.length;
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for(int i=0; i<len; i++) {
+            map.put(stones[i], i);
+        }
+        
+        boolean[][] dp = new boolean[len][len];
+        dp[0][1] = true;
+        
+        int maxK = 1;
+        for(int i=1; i<len; i++) {
+            for(int k=1; k<=Math.min(len-1, maxK+1); k++) {
+                for(int j=k-1; j<=Math.min(k+1, len-1); j++) {
+                    int prev = stones[i] - j;
+                    if(map.containsKey(prev) && dp[map.get(prev)][j]) {
+                        dp[i][k] = true;
+                        maxK = Math.max(maxK, k);
+                        break;
+                    }
+                }
+            }
+        }
+        for(int k=1; k<len; k++) {
+            if(dp[len-1][k]) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+}
+
+
+
+// method 2: DFS:
+
+class Solution {
+    public boolean canCross(int[] stones) {
+        if(stones == null || stones.length <= 1) return false;
+        if(stones[1] - stones[0] != 1) return false;
+        HashMap<Integer, Boolean>[] mem = new HashMap[stones.length];
+        for(int i=0; i<stones.length; i++) {
+            mem[i] = new HashMap<Integer, Boolean>();
+        }
+        return search(stones, 1, 1, mem);
+    }
+    
+    private boolean search(int[] stones, int idx, int k, HashMap<Integer, Boolean>[] mem) {
+        
+        HashMap<Integer, Boolean> map = mem[idx];
+        if(map.containsKey(k)) return map.get(k);
+        int len = stones.length;
+        if(idx == len - 1) return true;
+        
+        for(int i=idx+1; i<len; i++) {
+            int dis = stones[i] - stones[idx];
+            if(dis < k-1) continue;
+            if(dis > k+1) break;
+            
+            if(dis==k-1 || dis==k || dis == k+1) {
+                if(search(stones, i, dis, mem)) {
+                    map.put(k, true);
+                    return true;
+                }
+            }
+        }
+        map.put(k, false);
+        return false;
+    }
+}
