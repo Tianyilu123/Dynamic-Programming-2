@@ -1,0 +1,20 @@
+class Solution {
+    public int maxProduct(int[] nums) {
+        if(nums == null || nums.length == 0) return 0;
+        if(nums.length == 1) return nums[0];
+        
+        int minL = nums[0];
+        int maxL = nums[0];
+        int max = nums[0];
+        for(int i=1; i<nums.length; i++) {
+            int copy = minL;
+            minL = Math.min(Math.min(minL*nums[i], maxL*nums[i]), nums[i]);
+            maxL = Math.max(Math.max(copy*nums[i], maxL*nums[i]), nums[i]);
+            max = Math.max(max, maxL);
+        }
+        return max;
+    }
+}
+
+//time: O(n)
+//space: O(1)
