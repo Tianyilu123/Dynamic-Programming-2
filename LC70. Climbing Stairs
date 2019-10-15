@@ -1,15 +1,28 @@
+
+// method 1: DP
 class Solution {
     public int climbStairs(int n) {
-        if(n <= 1) return n;
-        int m1 = 1, m2 = 1;
+        if(n <= 2) return n;
+        int step1 = 1, step2 = 1;
         for(int i=2; i<=n; i++) {
-            int tmp = m1 + m2;
-            m1 = m2;
-            m2 = tmp;
+            int tmp = step1 + step2;
+            step1 = step2;
+            step2 = tmp;
         }
-        return m2;
+        return step2;
     }
 }
 
 // time: O(n)
 // space: O(1)
+
+
+// method 2: DFS
+
+class Solution {
+    public int climbStairs(int n) {
+        if(n <=2) return n;
+        else 
+            return climbStairs(n-1) + climbStairs(n-2);
+    }
+}
