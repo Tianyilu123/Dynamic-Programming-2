@@ -1,24 +1,49 @@
 class Solution {
     public int numDistinct(String s, String t) {
         int lenS = s.length(), lenT = t.length();
-        int[][] m = new int[lenT+1][lenS+1];
+        int[][] dp = new int[lenT+1][lenS+1];
         
         for(int i=0; i<=lenS; i++)
-            m[0][i] = 1;
+            dp[0][i] = 1;
         
         for(int i=0; i<lenT; i++) {
             for(int j=i; j<lenS; j++) {
                 char tc = t.charAt(i), sc = s.charAt(j);
                 if(tc != sc) {
-                    m[i+1][j+1] = m[i+1][j];
+                    dp[i+1][j+1] = dp[i+1][j];
                 } else {
-                    m[i+1][j+1] = m[i+1][j] + m[i][j];
+                    dp[i+1][j+1] = dp[i+1][j] + dp[i][j];
                 }
             }
         }
-        return m[lenT][lenS];
+        return dp[lenT][lenS];
     }
 }
 
 // time: O(m*n)
 // space: O(m*n)
+
+
+// method 2: DP
+
+class Solution {
+    public int numDistinct(String s, String t) {
+        int lenS = s.length(), lenT = t.length();            
+        int[][] dp = new int[lenT+1][lenS+1];  // how many of subsequence of S equal to T
+        for(int i=0; i<=lenS; i++) {
+            dp[0][i] = 1;
+        }
+        
+        for(int i=1; i<=lenT; i++) {
+            for(int j=i; j<=lenS; j++) {
+                if(s.charAt(j-1) != t.charAt(i-1))
+                    dp[i][j] = dp[i][j-1];
+                else
+                    dp[i][j] = dp[i-1][j-1] + dp[i][j-1];
+            }
+        }
+        return dp[lenT][lenS];
+    }
+}
+
+
