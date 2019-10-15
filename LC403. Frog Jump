@@ -38,7 +38,7 @@ class Solution {
 }
 
 
-// method 3: unknown:
+// method 2: for loop:
 
 class Solution {
     public boolean canCross(int[] stones) {
@@ -60,8 +60,12 @@ class Solution {
     }
 }
 
+// time: O(n^2);
+// space: O(n^2);
 
-// method 2: DFS:
+
+
+// method 3: DFS:
 
 class Solution {
     public boolean canCross(int[] stones) {
