@@ -5,21 +5,21 @@ class Solution {
         int sum = 0;
         int len = nums.length;
         
-        for(int num: nums){
+        for(int num : nums) {
             sum += num;
         }
+        
         if(sum%2 != 0) return false;
-        sum/=2;
+        sum = sum/2;
         
         boolean[] dp = new boolean[sum+1];
         dp[0] = true;
         
-        for(int i=1; i<=len; i++) {
-            for(int j=sum; j>=nums[i-1]; j--) {
-                dp[j] = dp[j] || dp[j-nums[i-1]];
+        for(int num : nums) {
+            for(int i = sum; i>=num; i--) {
+                dp[i] = dp[i] || dp[i-num];
             }
         }
-        
         return dp[sum];
     }
 }
